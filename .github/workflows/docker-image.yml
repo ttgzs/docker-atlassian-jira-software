@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/jira-software:${{inputs.name}}
+      run: docker build . --file Dockerfile -t ttgzs/jira-software:${{inputs.name}}
     - name: login docker hub
       uses: docker/login-action@v3.2.0
       with:        
@@ -30,7 +30,7 @@ jobs:
         password: ${{secrets.DOCKER_HUB_PWD }}
         logout: false
     - name: push docker hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/jira-software:${{inputs.name}}
+      run: docker push ttgzs/jira-software:${{inputs.name}}
     - name: login tjjs hub
       uses: docker/login-action@v3.2.0
       with:        
