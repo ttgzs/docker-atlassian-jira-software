@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   workflow_dispatch:
     inputs:
-        version:
+        name:
           # Friendly description to be shown in the UI instead of 'name'
           description: 'jira version'
           # Default value if no value is explicitly provided
@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ttgzs/jira-software:${{inputs.version}}
+      run: docker build . --file Dockerfile --tag ttgzs/jira-software:${{inputs.name}}
     - name: login docker hub
       uses: docker/login-action@v3.2.0
       with:        
@@ -31,7 +31,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PWD }}
         logout: false
     - name: push docker hub
-      run: docker push ttgzs/jira-software:${{inputs.version}}
+      run: docker push ttgzs/jira-software:${{inputs.name}}
     - name: login tjjs hub
       uses: docker/login-action@v3.2.0
       with:        
@@ -40,7 +40,7 @@ jobs:
         password: ${{ secrets.TJJS_HARBOR_PWD }}
         logout: false
     - name: tag tjjs docker image 
-      run: docker tag  ttgzs/jira-software:${{inputs.version}} ${{ secrets.TJJS_HARBOR_HOST }}/library/ttgzs/jira-software:${{inputs.version}}
+      run: docker tag  ttgzs/jira-software:${{inputs.name}} ${{ secrets.TJJS_HARBOR_HOST }}/library/ttgzs/jira-software:${{inputs.name}}
     - name: Push docker image 
       run: docker push ${{ secrets.TJJS_HARBOR_HOST }}/library/${{inputs.name}}    
     
